@@ -54,6 +54,7 @@ function Sum() {
     <div>
       <h1>Sum: {sumMutation.data?.sum}</h1>
       <input value={a} onChange={(e) => setA(Number(e.target.value))} />
+      {" "}+{" "}
       <input value={b} onChange={(e) => setB(Number(e.target.value))} />
       <button onClick={() => sumMutation.mutate({ a, b })}>Calculate</button>
     </div>
