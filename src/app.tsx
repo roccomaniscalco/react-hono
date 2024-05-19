@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { ApiType } from "../functions/api/[[route]]";
 import { hc } from "hono/client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 
-const client = hc<ApiType>("/");
+const api = hc<ApiType>("/").api;
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Hello />
       <Sum />
-    </>
+    </QueryClientProvider>
   );
 }
 
@@ -20,7 +26,7 @@ function Hello() {
   const helloQuery = useQuery({
     queryKey: ["hello", name],
     queryFn: () =>
-      client.api.hello.$get({ query: { name } }).then((res) => res.json()),
+      api.hello.$get({ query: { name } }).then((res) => res.json()),
     placeholderData: (previousData) => previousData,
   });
 
@@ -41,7 +47,7 @@ function Sum() {
   const sumMutation = useMutation({
     mutationKey: ["sum"],
     mutationFn: (data: { a: number; b: number }) =>
-      client.api.sum.$post({ json: data }).then((res) => res.json()),
+      api.sum.$post({ json: data }).then((res) => res.json()),
   });
 
   return (
