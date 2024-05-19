@@ -8,6 +8,9 @@ dependencies:
   '@hono/zod-validator':
     specifier: ^0.2.1
     version: 0.2.1(hono@4.3.7)(zod@3.23.8)
+  '@tanstack/react-query':
+    specifier: ^5.37.1
+    version: 5.37.1(react@18.3.1)
   hono:
     specifier: ^4.2.4
     version: 4.3.7
@@ -926,6 +929,19 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@tanstack/query-core@5.36.1:
+    resolution: {integrity: sha512-BteWYEPUcucEu3NBcDAgKuI4U25R9aPrHSP6YSf2NvaD2pSlIQTdqOfLRsxH9WdRYg7k0Uom35Uacb6nvbIMJg==}
+    dev: false
+
+  /@tanstack/react-query@5.37.1(react@18.3.1):
+    resolution: {integrity: sha512-EhtBNA8GL3XFeSx6VYUjXQ96n44xe3JGKZCzBINrCYlxbZP6UwBafv7ti4eSRWc2Fy+fybQre0w17gR6lMzULA==}
+    peerDependencies:
+      react: ^18.0.0
+    dependencies:
+      '@tanstack/query-core': 5.36.1
+      react: 18.3.1
+    dev: false
 
   /@types/babel__core@7.20.5:
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}

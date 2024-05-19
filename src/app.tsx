@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AppType } from "../functions/api/[[route]]";
 import { hc } from "hono/client";
+import { useQuery } from "@tanstack/react-query";
 
 const client = hc<AppType>("/");
 
 export default function App() {
-  const [message, setMessage] = useState<any>(null);
+  const [name, setName] = useState("world");
 
-  useEffect(() => {
-    const getMessage = async () => {
-      const res = await client.api.hello.$get({ query: { name: "world" } });
-      if (res.ok) {
-        const data = await res.json();
-        setMessage(data.message);
-      }
-    };
-    getMessage();
-  }, []);
+  const helloQuery = useQuery({
+    queryKey: ["hello", name],
+    queryFn: () =>
+      client.api.hello.$get({ query: { name } }).then((res) => res.json()),
+    placeholderData: (previousData) => previousData,
+  });
 
   return (
     <div>
-      <h1>{message}</h1>
+      <h1 style={{ opacity: helloQuery.isPlaceholderData ? 0.5 : 1 }}>
+        {helloQuery.data?.message}
+      </h1>
+      <input value={name} onChange={(e) => setName(e.target.value)} />
     </div>
   );
 }
