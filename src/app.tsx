@@ -1,11 +1,20 @@
 import { useState } from "react";
-import { AppType } from "../functions/api/[[route]]";
+import { ApiType } from "../functions/api/[[route]]";
 import { hc } from "hono/client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-const client = hc<AppType>("/");
+const client = hc<ApiType>("/");
 
 export default function App() {
+  return (
+    <>
+      <Hello />
+      <Sum />
+    </>
+  );
+}
+
+function Hello() {
   const [name, setName] = useState("world");
 
   const helloQuery = useQuery({
@@ -21,6 +30,26 @@ export default function App() {
         {helloQuery.data?.message}
       </h1>
       <input value={name} onChange={(e) => setName(e.target.value)} />
+    </div>
+  );
+}
+
+function Sum() {
+  const [a, setA] = useState(0);
+  const [b, setB] = useState(0);
+
+  const sumMutation = useMutation({
+    mutationKey: ["sum"],
+    mutationFn: (data: { a: number; b: number }) =>
+      client.api.sum.$post({ json: data }).then((res) => res.json()),
+  });
+
+  return (
+    <div>
+      <h1>Sum: {sumMutation.data?.sum}</h1>
+      <input value={a} onChange={(e) => setA(Number(e.target.value))} />
+      <input value={b} onChange={(e) => setB(Number(e.target.value))} />
+      <button onClick={() => sumMutation.mutate({ a, b })}>Calculate</button>
     </div>
   );
 }
