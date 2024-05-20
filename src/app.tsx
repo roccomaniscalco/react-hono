@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ApiType } from "../functions/api/[[route]]";
+import type { ApiType } from "../functions/api/[[route]]";
 import { hc } from "hono/client";
 import {
   QueryClient,
